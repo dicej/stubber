@@ -1,0 +1,12 @@
+[package]
+name = "stubber"
+description = "Tool to convert Wasm module imports to trapping stubs"
+version = "0.1.0"
+authors = [ "Fermyon Engineering <engineering@fermyon.com>" ]
+edition = "2021"
+
+[dependencies]
+wast = "52.0.2"
+wasmprinter = "0.2.49"
+anyhow = "1.0.68"
+clap = { version = "4.1.4", features = ["derive"] }
