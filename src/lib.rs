@@ -5,11 +5,7 @@ use std::str::FromStr;
 use anyhow::{anyhow, bail, Error, Result};
 use clap::Parser;
 use {
-    std::{
-        collections::HashMap,
-        io::{self, Read, Write},
-        mem,
-    },
+    std::{collections::HashMap, mem},
     wast::{
         core::{
             Expression, Func, FuncKind, Import, InlineExport, Instruction, ItemKind, ItemSig,
@@ -81,9 +77,7 @@ fn make_translations(stubs: &[u32], imports: &[u32]) -> HashMap<u32, u32> {
         .collect()
 }
 
-pub fn replace(options: Options) -> Result<()> {
-    let mut wasm = Vec::new();
-    io::stdin().read_to_end(&mut wasm)?;
+pub fn replace(options: Options, wasm: Vec<u8>) -> Result<Vec<u8>> {
     let wat = wasmprinter::print_bytes(&wasm)?;
     let buffer = ParseBuffer::new(&wat)?;
     let wat = parser::parse::<Wat>(&buffer)?;
@@ -191,7 +185,5 @@ pub fn replace(options: Options) -> Result<()> {
         }
     }
 
-    io::stdout().write_all(&module.encode()?)?;
-
-    Ok(())
+    Ok(module.encode()?)
 }
